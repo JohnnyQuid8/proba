@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Form, Input, Button } from "antd";
 import CharacterListPage from "./CharacterListPage";
+import Context from "../App";
 
 const LoginPage: React.FC = () => {
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const [login, setLogin] = React.useState(false);
 
+  const { login, setLogin } = useContext(Context);
+  console.log(login);
+
+  // Mogu nadograditi ako stignem
   const onFinish = (e: Event) => {
     if (username === "FWW" && password === "nikola") {
       setLogin(true);
