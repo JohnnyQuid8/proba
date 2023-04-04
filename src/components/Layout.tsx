@@ -9,13 +9,13 @@ const Layout: React.FC<Layout> = ({ children }) => {
   return (
     <div>
       <div>
-        <Link to="/">HomePage</Link>
-        <Link to="CharacterListPage">CharacterListPage</Link>
+        <Link to="/">HomePage</Link>lib
+        <Link to="/character-list-page">CharacterListPage</Link>
       </div>
       <div>{children}</div>
       <div>Footer</div>
     </div>
   );
-};
+}; 
 
 export default Layout;

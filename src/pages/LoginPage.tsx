@@ -1,57 +1,46 @@
 import React, { useContext } from "react";
 import { Form, Input, Button } from "antd";
-import CharacterListPage from "./CharacterListPage";
-import Context from "../App";
+import { LoginContext } from "../App";
+
+const DUMMY_USERNAME = "FWW";
+const DUMMY_PASSWORD = "nikola";
 
 const LoginPage: React.FC = () => {
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
 
-  const { login, setLogin } = useContext(Context);
-  console.log(login);
+  const loginContext = useContext(LoginContext);
 
-  // Mogu nadograditi ako stignem
+  
   const onFinish = (e: Event) => {
-    if (username === "FWW" && password === "nikola") {
-      setLogin(true);
-      console.log("uspesno");
+    if (username === DUMMY_USERNAME && password === DUMMY_PASSWORD) {
+      loginContext.login();
     } else {
       alert("Wrong password or username");
     }
   };
 
-  const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUsername(event.target.value);
-  };
-  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value);
-  };
-
-  console.log(username, password);
   return (
-    <div>
-      {!login ? (
-        <Form onFinish={onFinish}>
-          <Input
-            placeholder="username"
-            value={username}
-            id="username"
-            required
-            onChange={handleUsernameChange}
-          />
-          <Input.Password
-            placeholder="password"
-            id="password"
-            value={password}
-            required
-            onChange={handlePasswordChange}
-          />
-          <Button htmlType="submit">LOG IN</Button>
-        </Form>
-      ) : (
-        <CharacterListPage />
-      )}
-    </div>
+    <>
+      <Form onFinish={onFinish}>
+        <Input
+          placeholder="username"
+          value={username}
+          id="username"
+          required
+          onChange={(event) => setUsername(event.target.value)}
+        />
+        <Input.Password
+          placeholder="password"
+          id="password"
+          value={password}
+          required
+          onChange={(event) => setPassword(event.target.value)}
+        />
+        <Button htmlType="submit">LOG IN</Button>
+      </Form>
+    </>
   );
 };
+
 export default LoginPage;

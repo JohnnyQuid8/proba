@@ -1,34 +1,36 @@
-import React, { createContext } from "react";
-import { Routes, Route } from "react-router-dom";
-import LoginPage from "./pages/LoginPage";
-import CharacterListPage from "./pages/CharacterListPage";
+import * as React from "react";
+import AppMain from "./AppMain";
+import { useNavigate } from "react-router-dom";
 
-export interface MyContext {
-  login: any;
-  setLogin: any;
+export interface LoginContext {
+  isLogedIn: boolean;
+  login: () => void;
+  logout: () => void;
 }
-const Context = createContext<MyContext | null>(null);
 
-interface Provider {
-  children: React.ReactNode;
-}
-const MyProvider: React.FC<Provider> = ({ children }) => {
-  const [login, setLogin] = React.useState(false);
+// We dont want to type it as nullable, to avoid unescessery checks.
+// @ts-ignore
+export const LoginContext = React.createContext<LoginContext>(undefined);
+
+export function App() {
+  const navigate = useNavigate();
+  const [isLogedIn, setIsLogedIn] = React.useState(false);
+
+  const value = {
+    isLogedIn: isLogedIn,
+    login: () => {
+      setIsLogedIn(true);
+      navigate("/character-list-page");
+    },
+    logout: () => {
+      setIsLogedIn(false);
+      navigate("/");
+    },
+  };
 
   return (
-    <Context.Provider value={{ login, setLogin }}>{children}</Context.Provider>
+    <LoginContext.Provider value={value}>
+      <AppMain />
+    </LoginContext.Provider>
   );
-};
-
-const App: React.FC = () => {
-  return (
-    <Routes>
-      <MyProvider>
-        <Route path="/" element={<LoginPage />}></Route>
-        <Route path="CharacterListPage" element={<CharacterListPage />}></Route>
-      </MyProvider>
-    </Routes>
-  );
-};
-
-export default App;
+}
